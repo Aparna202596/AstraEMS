@@ -1,3 +1,16 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import User
 
-# Register your models here.
+
+@admin.register(User)
+class CustomUserAdmin(UserAdmin):
+    model = User
+    list_display  = ['email', 'username', 'role', 'is_active', 'created_at']
+    list_filter   = ['role', 'is_active']
+    search_fields = ['email', 'username']
+    ordering      = ['-created_at']
+
+    fieldsets = UserAdmin.fieldsets + (
+        ('AstraEMS Role', {'fields': ('role',)}),
+    )
