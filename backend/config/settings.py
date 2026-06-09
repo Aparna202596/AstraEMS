@@ -5,7 +5,7 @@ from pathlib import Path
 from decouple import config
 import os
 from datetime import timedelta
-
+import mongoengine
 # ==================================================
 # BASE DIRECTORY
 # ==================================================
@@ -176,3 +176,16 @@ SIMPLE_JWT = {
 # DEFAULT PRIMARY KEY
 # ==================================================
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"  
+
+# ==================================================
+# MONGODB SETTINGS FOR AUDIT LOGS
+# ==================================================
+MONGODB_SETTINGS = {
+    'db':   config('MONGO_DB', default='astraems_logs'),
+    'host': config('MONGO_URI', default='mongodb://localhost:27017/astraems_logs'),
+}
+
+mongoengine.connect(
+    db=MONGODB_SETTINGS['db'],
+    host=MONGODB_SETTINGS['host'],
+)
